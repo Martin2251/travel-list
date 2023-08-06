@@ -1,49 +1,55 @@
 import React from 'react'
+export default function App() {
+ return(
+  <div className='app'>
+    <Logo/>
+    <Form  />
+    <PackingList  />
+    <Stats  />
 
-const App = () => {
-  return (
-    <div>App</div>
-  )
+  </div>
+ )
+ 
 }
 
-export default App
 
 
-
-const Logo = () => {
+ export  const Logo = () => {
   return (
     <div>Logo</div>
   )
 }
 
-export default Logo
 
-
-const Form = () => {
+ export const Form = () => {
   return (
-    <div>Form</div>
+    <div className='add-form'>
+      <h3> what do you need for your trip?</h3>
+    </div>
   )
 }
 
-export default Form
 
-import React from 'react'
 
-const PackingList = () => {
+
+export const PackingList = () => {
   return (
-    <div>PackingList</div>
+    <div className='list'>
+      List
+    </div>
   )
 }
 
-export default PackingList
 
 
 
-import React from 'react'
+
 
 export const Stats = () => {
   return (
-    <div>Stats</div>
+   <footer>
+    You have x items on your list and you have already paced
+   </footer>
   )
 }
 
