@@ -6,11 +6,19 @@ const initialItems = [
 ];
 
 export default function App() {
+  const [items,setItems] = useState([]);
+ // ADD NEW ITEMS TO ITEMS ARRAY FUNCTION 
+ function handleAddItems(item){
+  // to update our items array use setItems
+  // spread it and then add the item we want to add here
+  setItems(items=>[...items, item])
+
+}
  return(
   <div className='app'>
     <Logo/>
-    <Form  />
-    <PackingList  />
+    <Form onAddItems={handleAddItems} />
+    <PackingList items={items} />
     <Stats  />
 
   </div>
@@ -27,10 +35,12 @@ export default function App() {
 }
 
 
- export const Form = () => {
+ export const Form = ({onAddItems}) => {
 
   const [description, setDescription] = useState("");
-  const [quantity,setQuantity] = useState(1)
+  const [quantity,setQuantity] = useState(1);
+
+ 
 
   function handleSubmit (e) {
     e.preventDefault();
@@ -39,6 +49,9 @@ export default function App() {
 
     const newItem ={description,quantity,packed:false, id:Date.now()}
     console.log(newItem)
+
+    // with new item we have just created 
+    onAddItems(newItem)
 
     setDescription("");
     setQuantity(1)
@@ -59,11 +72,11 @@ export default function App() {
 
 
 
-export const PackingList = () => {
+export const PackingList = ({items}) => {
   return (
     <div className='list'>
     <ul>
-      {initialItems.map(item => <Item item={item} key={item.id} />)}
+      {items.map(item => <Item item={item} key={item.id} />)}
     </ul> 
     </div>
   )
