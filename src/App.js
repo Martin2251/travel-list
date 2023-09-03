@@ -16,12 +16,16 @@ function handleDeleteItem(id){
   // pass in the id because every item has an id
   setItems(items => items.filter(item => item.id !== id))
 }
+
+function handleToggleItem(id){
+  setItems(items =>items.map(item=>item.id === id ? {...item,packed:!item.packed}:item))
+}
  return(
   <div className='app'>
     <Logo/>
     <Form onAddItems={handleAddItems} />
-    <PackingList items={items} onDeleteItem={handleDeleteItem}/>
-    <Stats  />
+    <PackingList items={items} onDeleteItem={handleDeleteItem} onToggleItem={handleToggleItem}/>
+    <Stats items={items} />
 
   </div>
  )
@@ -74,20 +78,20 @@ function handleDeleteItem(id){
 
 
 
-export const PackingList = ({items, onDeleteItem}) => {
+export const PackingList = ({items, onDeleteItem,onToggleItem}) => {
   return (
     <div className='list'>
     <ul>
-      {items.map(item => <Item item={item} key={item.id} onDeleteItem={onDeleteItem} />)}
+      {items.map(item => <Item item={item} key={item.id} onDeleteItem={onDeleteItem} onToggleItem={onToggleItem} />)}
     </ul> 
     </div>
   )
 }
 
-export const Item = ({item, onDeleteItem}) =>{
+export const Item = ({item, onDeleteItem,onToggleItem}) =>{
   return (
   <li>
-    <input type="checkbox"  value={item.packed} onChange={()=>{}}/>
+    <input type="checkbox"  value={item.packed} onChange={()=>onToggleItem(item.id)}/>
     <span style={item.packed ? {textDecoration:
        "line-through"} : {}}>
         {item.quantity} {item.description}
@@ -104,10 +108,17 @@ export const Item = ({item, onDeleteItem}) =>{
 
 
 
-export const Stats = () => {
+export const Stats = ({items}) => {
+  if(!items.length) return <p className="stats"><em>Start adding some items to your packing list</em></p>
+  const numItems = items.length
+  const numPacked = items.filter(item =>item.packed).length
+  const percentage = Math.round(numPacked / numItems * 100)
   return (
    <footer className='stats'>
-    You have x items on your list and you have already paced
+    <em>
+      {percentage === 100 ? "you got everything ready to go " : `you have ${numItems} items on your list and you have already packed ${numPacked} (${percentage}%)`}
+    You have {numItems} items on your list and you have already packed {numPacked} ({percentage}%)
+    </em>
    </footer>
   )
 }
