@@ -1,7 +1,8 @@
 import { useState } from "react";
-import Logo from "./Logo";
-import Form from "./Form";
-import { PackingList } from "./PackingList";
+import Logo from "./components/Logo";
+import Form from "./components/Form";
+import { PackingList } from "./components/PackingList";
+import { Stats } from "./components/Stats";
 
 
 export default function App() {
@@ -47,46 +48,6 @@ function handleClearList(){
 
 
  
-
-
-
-export const Item = ({item, onDeleteItem,onToggleItem}) =>{
-  return (
-  <li>
-    <input type="checkbox"  value={item.packed} onChange={()=>onToggleItem(item.id)}/>
-    <span style={item.packed ? {textDecoration:
-       "line-through"} : {}}>
-        {item.quantity} {item.description}
-    </span>
-    <button onClick={() =>onDeleteItem(item.id)}>❌</button>
-  </li>
-  )
-
-
-}
-
-
-
-
-
-
-export const Stats = ({items}) => {
-  if(!items.length) return <p className="stats"><em>Start adding some items to your packing list</em></p>
-  const numItems = items.length
-  const numPacked = items.filter(item =>item.packed).length
-  const percentage = Math.round(numPacked / numItems * 100)
-  return (
-   <footer className='stats'>
-    <em>
-      {percentage === 100 ? "you got everything ready to go " : `you have ${numItems} items on your list and you have already packed ${numPacked} (${percentage}%)`}
-    You have {numItems} items on your list and you have already packed {numPacked} ({percentage}%)
-    </em>
-   </footer>
-  )
-}
-
-
-
 
 
 
